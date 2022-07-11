@@ -1,5 +1,6 @@
 package com.example.customcalendar;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,5 +23,6 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     public void onClick(View view)
     {
         onItemListener.onItemClick(getAdapterPosition(), (String) dayOfMonth.getText());
+        dayOfMonth.setBackgroundColor(Color.parseColor("#567845"));
     }
 }

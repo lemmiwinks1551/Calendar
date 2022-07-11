@@ -1,13 +1,14 @@
 package com.example.customcalendar;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         if (!dayText.equals("")) {
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+            TextView view = findViewById(R.id.cellDayText);
+            view.setTextColor(getResources().getColor(R.color.purple_500));
         }
     }
 }

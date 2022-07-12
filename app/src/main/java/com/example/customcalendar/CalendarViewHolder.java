@@ -1,18 +1,17 @@
 package com.example.customcalendar;
 
-import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-{
+public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public final TextView dayOfMonth;
     private final CalendarAdapter.OnItemListener onItemListener;
-    public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener)
-    {
+
+    public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener) {
+        // Конструктор. Возвращаем значение из CalendarAdapter
         super(itemView);
         dayOfMonth = itemView.findViewById(R.id.cellDayText);
         this.onItemListener = onItemListener;
@@ -20,9 +19,8 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     }
 
     @Override
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
+        // Вызывает onItemClick класса MainActivity
         onItemListener.onItemClick(getAdapterPosition(), (String) dayOfMonth.getText());
-        dayOfMonth.setBackgroundColor(Color.parseColor("#567845"));
     }
 }

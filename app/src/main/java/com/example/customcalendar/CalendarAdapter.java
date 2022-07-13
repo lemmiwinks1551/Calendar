@@ -1,6 +1,5 @@
 package com.example.customcalendar;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
+    // Адаптер работает с ViewHolder`ом
     private final ArrayList<String> daysOfMonth;
     private final OnItemListener onItemListener;
 
@@ -23,18 +23,22 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     @NonNull
     @Override
     public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Возвращает объект ViewHolder, который будет хранить данные по одному объекту State
+        // Возвращает объект ViewHolder, который будет хранить данные по одному объекту
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.calendar_cell, parent, false);
+
+        // Выравнивает элементы по высоте
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = (int) (parent.getHeight() * 0.166666666); // Установка
+        layoutParams.height = (int) (parent.getHeight() * 0.166666666);
         return new CalendarViewHolder(view, onItemListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
-        // выполняет привязку объекта ViewHolder к объекту State по определенной позиции.
+        // выполняет привязку объекта ViewHolder к объекту по определенной позиции.
         holder.dayOfMonth.setText(daysOfMonth.get(position));
+        // TODO: 13.07.2022 Добавить логику выбора из БД и раскраску дней
+        // holder.dayOfMonth.setTextColor(Color.RED);
     }
 
     @Override

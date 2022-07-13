@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
 
         // Получаем день недели первого дня месяца
-        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
+        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue() - 1;
 
         // Заполняем массив для отображения в RecyclerView
         // Учитываем пустые дни (дни прошлого месяца
@@ -88,7 +88,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     private String monthYearFromDate(LocalDate date) {
         // Метод форматирует название месяца и год для отображения во View
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+        // TODO: 14.07.2022 Поправить отображение месяца, добавить поле "Сегодня"
+        date.getMonth();
         return date.format(formatter);
     }
 
@@ -102,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     public void nextMonthAction(View view) {
         // Обработка нажатия на кнопку Следующий месяц
         // Добавляем один месяц к текущему
-
         selectedDate = selectedDate.plusMonths(1);
         setMonthView();
     }

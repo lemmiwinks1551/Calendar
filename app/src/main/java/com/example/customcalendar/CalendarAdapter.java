@@ -1,5 +1,6 @@
 package com.example.customcalendar;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,7 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     // Адаптер работает с ViewHolder`ом
@@ -15,7 +18,6 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     private final OnItemListener onItemListener;
 
     public CalendarAdapter(ArrayList<String> daysOfMonth, OnItemListener onItemListener) {
-        //
         this.daysOfMonth = daysOfMonth;
         this.onItemListener = onItemListener;
     }
@@ -36,9 +38,12 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         // выполняет привязку объекта ViewHolder к объекту по определенной позиции.
+        LocalDate nowDate = LocalDate.now();
+        if (Objects.equals(daysOfMonth.get(position), String.valueOf(nowDate.getDayOfMonth()))) {
+            holder.dayOfMonth.setBackgroundColor(Color.RED);
+        }
         holder.dayOfMonth.setText(daysOfMonth.get(position));
         // TODO: 13.07.2022 Добавить логику выбора из БД и раскраску дней
-        // holder.dayOfMonth.setTextColor(Color.RED);
     }
 
     @Override

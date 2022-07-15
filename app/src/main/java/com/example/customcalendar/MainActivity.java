@@ -1,6 +1,7 @@
 package com.example.customcalendar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -9,10 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
     private TextView monthYearText;
@@ -21,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String LOG = "Calendar";
+        Log.e(LOG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -29,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         // Получить сегодняшню дату yyyy-MM-dd
         selectedDate = LocalDate.now();
+
 
         // Вызываем метод, который устанавливает название месяца, создает и устанавливает адаптер и менеджер
         setMonthView();
@@ -42,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     private void setMonthView() {
         // Устанавливаем название месяца в TextView
-        monthYearText.setText(monthYearFromDate(selectedDate));
+        monthYearText.setText(monthYearFromDate());
         ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
 
         // Создаем CalendarAdapter, передаем количество дней в месяце и listener
@@ -86,18 +93,19 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         return daysInMonthArray;
     }
 
-    private String monthYearFromDate(LocalDate date) {
+    private String monthYearFromDate() {
         // Метод форматирует название месяца и год для отображения во View
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-        // TODO: 14.07.2022 Поправить отображение месяца, добавить поле "Сегодня"
-        date.getMonth();
-        return date.format(formatter);
+        Date date = Date.from(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        String month = new SimpleDateFormat("LLLL", Locale.getDefault()).format(date);
+        String year = String.valueOf(selectedDate.getYear());
+        return month + " " + year;
     }
 
     public void previousMonthAction(View view) {
         // Обработка нажатия на кнопку Предыдущий месяц
         // Вычитаем один месяц из текущего
         selectedDate = selectedDate.minusMonths(1);
+        CalendarAdapter.month--;
         setMonthView();
     }
 
@@ -105,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         // Обработка нажатия на кнопку Следующий месяц
         // Добавляем один месяц к текущему
         selectedDate = selectedDate.plusMonths(1);
+        CalendarAdapter.month++;
         setMonthView();
     }
 
@@ -113,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         // Обработка клика по дню, если ячейка не пустая
         if (!dayText.equals("")) {
             // TODO: 12.07.2022 Реализовать логику перехода на экран выбранной даты
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
+            String message = "Selected Date " + dayText;
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         }
     }

@@ -14,6 +14,7 @@ import java.util.Objects;
 
 class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     // Адаптер работает с ViewHolder`ом
+    static int month = 0;
     private final ArrayList<String> daysOfMonth;
     private final OnItemListener onItemListener;
 
@@ -31,15 +32,20 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
         // Выравнивает элементы по высоте
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = (int) (parent.getHeight() * 0.166666666);
+        layoutParams.height = (int) (parent.getHeight() * 0.11);
+        //layoutParams.height = (int) (parent.getHeight() * 0.166666666);
         return new CalendarViewHolder(view, onItemListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         // выполняет привязку объекта ViewHolder к объекту по определенной позиции.
+        // Если день имесяц для отправки в холдер текущие - покрасить ячейку
         LocalDate nowDate = LocalDate.now();
-        if (Objects.equals(daysOfMonth.get(position), String.valueOf(nowDate.getDayOfMonth()))) {
+        String dayInHolder = daysOfMonth.get(position);
+
+        if (Objects.equals(dayInHolder, String.valueOf(nowDate.getDayOfMonth())) &&
+                month == 0) {
             holder.dayOfMonth.setBackgroundColor(Color.RED);
         }
         holder.dayOfMonth.setText(daysOfMonth.get(position));
